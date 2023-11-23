@@ -1,0 +1,22 @@
+---
+- name: Your Ansible Playbook
+  hosts: debian_servers
+  become: true
+
+  tasks:
+    - name: Upgrade Packages
+      apt: 
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Start Nginx 
+      service:
+        name: nginx 
+        state: started
+        enabled: yes
+
