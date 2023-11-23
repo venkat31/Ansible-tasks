@@ -1,0 +1,17 @@
+---
+- name: Create S3 Bucket and Upload Files
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python3.10 
+  tasks:
+    - name: Upload Files to S3
+      community.aws.s3_sync:
+        bucket: eggy-zamp-0a328-s3bucket
+        file_root: ./s3_upload/test.html
+
+
+
+
+
+
