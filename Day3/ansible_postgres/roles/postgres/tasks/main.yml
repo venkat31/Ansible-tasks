@@ -1,0 +1,37 @@
+- name: Install PostgreSQL and required dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - postgresql
+    - python3-psycopg2
+    - libpq-dev
+  notify:
+    - Start PostgreSQL Service
+
+- name: Ensure destination directory exists
+  file:
+    path: "/etc/postgresql/{{ postgresql_version }}/main"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Configure PostgreSQL
+  template:
+    src: pg_hba.conf.j2
+    dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+  notify:
+    - Reload PostgreSQL Configuration
+
+- name: Create a new database
+  community.postgresql.postgresql_db:
+    name: "{{ postgres_db_name }}"
+  become_user: postgres
+
+- name: Create a new PostgreSQL user
+  community.postgresql.postgresql_user:
+    db: "{{ postgres_db_name }}"
+    name: "{{ postgres_db_user }}"
+    password: "{{ postgres_db_password }}"
+    state: present
+  become_user: postgres
