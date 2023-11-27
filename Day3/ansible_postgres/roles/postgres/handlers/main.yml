@@ -1,0 +1,10 @@
+- name: Start PostgreSQL Service
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Reload PostgreSQL Configuration
+  systemd:
+    name: postgresql
+    state: reloaded

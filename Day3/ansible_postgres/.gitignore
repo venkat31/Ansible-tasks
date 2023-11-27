@@ -1,0 +1,5 @@
+#.gitignore
+
+inventory.ini
+pg_hba.conf
+
