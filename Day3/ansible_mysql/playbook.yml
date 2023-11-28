@@ -1,0 +1,8 @@
+---
+- name: Configure Web Servers
+  hosts: [debian_servers]
+  become: true 
+  gather_facts: false
+
+  roles:
+    - mysql
