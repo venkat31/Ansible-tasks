@@ -1,0 +1,31 @@
+---
+- name: Update APT cache (for Ubuntu) or YUM cache (for CentOS)
+  become: true
+  apt:
+    update_cache: yes
+  # when: ansible_os_family == 'Debian'
+
+- name: Install MySQL packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - default-mysql-server
+    - default-mysql-client
+    - python3-mysqldb
+    # - python-mysqldb
+    - libdbd-mysql-perl
+
+- name: Start MySQL service
+  become: true
+  service:
+    name: mysql
+    state: started
+
+- name: Secure MySQL installation
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    host: 35.164.63.149
+  notify: Restart MySQL Service

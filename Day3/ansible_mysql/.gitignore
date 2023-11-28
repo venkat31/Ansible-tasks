@@ -1,0 +1,6 @@
+#.gitignore
+
+inventory.ini
+pg_hba.conf
+roles/mysql/defaults/main.yml
+
